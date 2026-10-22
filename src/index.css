@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Document Preview Word Document Styling */
+.docx-container {
+  direction: rtl !important;
+  text-align: right !important;
+  unicode-bidi: embed !important;
+  font-family: 'Tajawal', 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif !important;
+  color: #1e293b !important;
+}
+
+.docx-container .docx-wrapper {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.docx-container .docx {
+  background: #ffffff !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08) !important;
+  margin: 0 auto !important;
+  padding: 36px 40px !important;
+  border-radius: 12px !important;
+  border: 1px solid #e2e8f0 !important;
+  font-family: 'Tajawal', 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif !important;
+  direction: rtl !important;
+  text-align: right !important;
+  color: #0f172a !important;
+  min-height: 520px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.docx-container p,
+.docx-container span,
+.docx-container div,
+.docx-container article,
+.docx-container section {
+  direction: rtl !important;
+  text-align: right !important;
+  font-family: 'Tajawal', 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif !important;
+  line-height: 1.85 !important;
+}
+
+.docx-container table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 18px 0 !important;
+  direction: rtl !important;
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.docx-container td,
+.docx-container th {
+  border: 1px solid #cbd5e1 !important;
+  padding: 10px 14px !important;
+  text-align: right !important;
+  font-size: 13.5px !important;
+  line-height: 1.6 !important;
+}
+
+.docx-container tr:first-child td,
+.docx-container th {
+  background-color: #f1f5f9 !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+}
+
+.docx-container tr:nth-child(even) td {
+  background-color: #f8fafc !important;
+}
+
+/* Print support */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .docx-container, .docx-container * {
+    visibility: visible;
+  }
+  .docx-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}

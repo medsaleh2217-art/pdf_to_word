@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تحويل PDF إلى Word مجاناً</title>
+<meta name="description" content="حوّل ملفات PDF إلى Word (docx) مع الحفاظ على التنسيق والجداول والنص العربي. سريع ومجاني وبدون تسجيل.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1d4ed8; --blue-d:#1e3a8a; --blue-l:#eff6ff; --line:#dbe4f3;
+    --ink:#0f172a; --muted:#64748b; --ok:#15803d; --err:#b91c1c; --bg:#f8fafc; --card:#fff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --blue:#60a5fa; --blue-d:#93c5fd; --blue-l:#0f1b33; --line:#25324d;
+      --ink:#e5edf9; --muted:#94a3b8; --ok:#4ade80; --err:#f87171; --bg:#0b1220; --card:#111a2e; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Tajawal",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px}
+  header{padding:28px 0 8px;text-align:center}
+  .logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;color:var(--blue-d)}
+  .logo span.dot{width:34px;height:34px;border-radius:10px;background:var(--blue);display:grid;place-items:center;color:#fff;font-size:.8rem}
+  h1{font-size:clamp(1.6rem,5vw,2.4rem);margin:18px 0 6px;font-weight:800;color:var(--blue-d)}
+  .sub{color:var(--muted);margin:0 auto 24px;max-width:520px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 6px 24px rgba(29,78,216,.06)}
+  .drop{border:2px dashed var(--blue);background:var(--blue-l);border-radius:14px;padding:38px 16px;text-align:center;cursor:pointer;transition:.15s}
+  .drop.over{transform:scale(1.01);border-style:solid}
+  .drop strong{display:block;font-size:1.15rem;margin:8px 0 2px}
+  .drop small{color:var(--muted)}
+  .ico{font-size:2.2rem}
+  button{font-family:inherit;cursor:pointer;border:0;border-radius:12px;font-weight:700;font-size:1rem;padding:12px 22px}
+  .btn{background:var(--blue);color:#fff}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--blue);border:1px solid var(--line)}
+  .file{display:flex;align-items:center;gap:12px;margin-top:16px;padding:12px 14px;border:1px solid var(--line);border-radius:12px}
+  .file .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:right}
+  .file .size{color:var(--muted);font-size:.9rem}
+  .x{background:none;color:var(--muted);padding:4px 8px;font-size:1.2rem}
+  .row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .row .btn{flex:1;min-width:180px}
+  .bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:16px}
+  .bar i{display:block;height:100%;width:0;background:var(--blue);border-radius:99px;transition:width .3s}
+  .bar.busy i{width:40%;animation:slide 1.2s infinite ease-in-out}
+  @keyframes slide{0%{margin-inline-start:-40%}100%{margin-inline-start:100%}}
+  .msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:500}
+  .msg.err{background:#fef2f2;color:var(--err);border:1px solid #fecaca}
+  .msg.ok{background:#f0fdf4;color:var(--ok);border:1px solid #bbf7d0}
+  @media (prefers-color-scheme: dark){ .msg.err{background:#2a1214;border-color:#5b1d22} .msg.ok{background:#0e2418;border-color:#1c4a30} }
+  .hidden{display:none!important}
+  .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:26px 0}
+  .feat div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+  .feat b{display:block;color:var(--blue-d);margin-bottom:2px}
+  .feat span{color:var(--muted);font-size:.93rem}
+  h2{font-size:1.2rem;color:var(--blue-d);margin:28px 0 10px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+  summary{cursor:pointer;font-weight:700}
+  details p{margin:8px 0 0;color:var(--muted)}
+  footer{text-align:center;color:var(--muted);font-size:.9rem;padding:28px 0 40px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo"><span class="dot">PDF</span> محوّل الملفات</div>
+    <h1>حوّل PDF إلى Word في ثوانٍ</h1>
+    <p class="sub">يحافظ على التنسيق والجداول والصور والنص العربي. مجاني وبدون تسجيل.</p>
+  </header>
+
+  <main class="card">
+    <div id="drop" class="drop" tabindex="0" role="button" aria-label="اختر ملف PDF">
+      <div class="ico">📄</div>
+      <strong>اسحب ملف PDF هنا أو اضغط للاختيار</strong>
+      <small id="limits">…</small>
+      <input id="input" type="file" accept="application/pdf,.pdf" hidden>
+    </div>
+
+    <div id="fileBox" class="file hidden">
+      <span>📎</span>
+      <span class="name" id="fname"></span>
+      <span class="size" id="fsize"></span>
+      <button class="x" id="clear" aria-label="إزالة الملف">✕</button>
+    </div>
+
+    <div id="bar" class="bar hidden"><i></i></div>
+    <div id="msg" class="msg hidden" role="status"></div>
+
+    <div class="row">
+      <button id="go" class="btn" disabled>حوّل إلى Word</button>
+      <a id="dl" class="hidden" style="flex:1;min-width:180px"><button class="btn" style="width:100%;background:var(--ok);color:#052e16">⬇ تنزيل ملف Word</button></a>
+      <button id="again" class="btn ghost hidden">تحويل ملف آخر</button>
+    </div>
+  </main>
+
+  <section class="feat">
+    <div><b>🔒 خصوصية</b><span>تُحذف ملفاتك من الخادم فور انتهاء التحويل.</span></div>
+    <div><b>🔤 يدعم العربية</b><span>نصوص RTL وجداول وصور قابلة للتعديل.</span></div>
+    <div><b>⚡ سريع</b><span>معظم الملفات تُحوَّل في ثوانٍ.</span></div>
+  </section>
+
+  <h2>أسئلة شائعة</h2>
+  <details><summary>لماذا رُفض ملفي لأنه «ممسوح ضوئياً»؟</summary>
+    <p>الملفات الممسوحة ضوئياً عبارة عن صور بلا نص حقيقي، وتحتاج تقنية OCR للتعرف على الحروف، وهي غير مدعومة حالياً.</p></details>
+  <details><summary>هل التنسيق يبقى كما هو تماماً؟</summary>
+    <p>يحافظ التحويل على معظم التنسيق، لكن الملفات المعقدة جداً (تصاميم متداخلة أو خطوط نادرة) قد تحتاج تعديلاً بسيطاً بعد الفتح في Word.</p></details>
+  <details><summary>هل يوجد حد لحجم الملف؟</summary>
+    <p id="faqLimit">نعم، لضمان سرعة الخدمة للجميع.</p></details>
+
+  <footer>© محوّل PDF إلى Word</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const drop=$('drop'), input=$('input'), go=$('go'), msg=$('msg'), bar=$('bar');
+let file=null, blobUrl=null, MAX_MB=15;
+
+const fmt = b => b>1048576 ? (b/1048576).toFixed(1)+' MB' : Math.max(1,Math.round(b/1024))+' KB';
+function show(text, kind){ msg.textContent=text; msg.className='msg '+kind; }
+function hideMsg(){ msg.className='msg hidden'; }
+
+fetch('/api/limits').then(r=>r.json()).then(l=>{
+  MAX_MB=l.max_mb;
+  $('limits').textContent=`PDF فقط · حتى ${l.max_mb} ميغابايت · حتى ${l.max_pages} صفحة`;
+  $('faqLimit').textContent=`نعم: حتى ${l.max_mb} ميغابايت و${l.max_pages} صفحة للملف الواحد.`;
+}).catch(()=>{ $('limits').textContent='PDF فقط'; });
+
+function setFile(f){
+  hideMsg(); resetResult();
+  if(!f) return;
+  if(!/\.pdf$/i.test(f.name)){ show('الرجاء اختيار ملف بصيغة PDF.','err'); return; }
+  if(f.size > MAX_MB*1048576){ show(`حجم الملف أكبر من ${MAX_MB} ميغابايت.`,'err'); return; }
+  file=f; $('fname').textContent=f.name; $('fsize').textContent=fmt(f.size);
+  $('fileBox').classList.remove('hidden'); drop.classList.add('hidden'); go.disabled=false;
+}
+function resetResult(){
+  if(blobUrl){ URL.revokeObjectURL(blobUrl); blobUrl=null; }
+  $('dl').classList.add('hidden'); $('again').classList.add('hidden'); go.classList.remove('hidden');
+}
+function clearAll(){
+  file=null; input.value=''; go.disabled=true; hideMsg(); resetResult();
+  $('fileBox').classList.add('hidden'); drop.classList.remove('hidden'); bar.classList.add('hidden');
+}
+
+drop.addEventListener('click',()=>input.click());
+drop.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); input.click(); }});
+input.addEventListener('change',()=>setFile(input.files[0]));
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>setFile(e.dataTransfer.files[0]));
+$('clear').addEventListener('click',clearAll);
+$('again').addEventListener('click',clearAll);
+
+go.addEventListener('click', async ()=>{
+  if(!file) return;
+  go.disabled=true; hideMsg(); bar.classList.remove('hidden'); bar.classList.add('busy');
+  show('جارٍ التحويل… قد يستغرق الملف الكبير بضع ثوانٍ.','ok');
+  const fd=new FormData(); fd.append('file',file);
+  try{
+    const r=await fetch('/api/convert',{method:'POST',body:fd});
+    if(!r.ok){
+      let t='حدث خطأ غير متوقع. حاول مرة أخرى.';
+      try{ t=(await r.json()).error || t; }catch(_){}
+      throw new Error(t);
+    }
+    const blob=await r.blob();
+    blobUrl=URL.createObjectURL(blob);
+    const a=$('dl'); a.href=blobUrl; a.download=file.name.replace(/\.pdf$/i,'')+'.docx';
+    a.classList.remove('hidden'); $('again').classList.remove('hidden'); go.classList.add('hidden');
+    show('تم التحويل بنجاح ✅','ok');
+  }catch(e){
+    show(e.message || 'تعذّر الاتصال بالخادم.','err'); go.disabled=false;
+  }finally{
+    bar.classList.remove('busy'); bar.classList.add('hidden');
+  }
+});
+</script>
+</body>
+</html>

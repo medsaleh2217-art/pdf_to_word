@@ -1,0 +1,6 @@
+{
+  "name": "محوّل PDF إلى Word الذكي",
+  "description": "موقع متكامل لتحويل ملفات PDF إلى مستندات Word (docx) مع الحفاظ على التنسيق والجداول وإصلاح اتجاه النصوص العربية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
